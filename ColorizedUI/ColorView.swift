@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ColorView: View {
+    
     let red: Double
     let green: Double
     let blue: Double
@@ -18,7 +19,7 @@ struct ColorView: View {
             .frame(height: 130) // высота
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white, lineWidth: 2) // ореол 
+                    .stroke(Color.white, lineWidth: 2) // ореол
             )
     }
 }

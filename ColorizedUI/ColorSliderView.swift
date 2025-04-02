@@ -37,8 +37,6 @@ struct ColorSliderView: View { // разгружаем ContentView
         }
     }
     
-    
-    
     private func checkValue() {
         if let value = Double(text), (0...255).contains(value) {
             self.value = value

@@ -12,41 +12,77 @@ struct ContentView: View { // текущее рандомное значение
     @State private var green = Double.random(in: 0...255).rounded()
     @State private var blue = Double.random(in: 0...255).rounded()
     
-    @FocusState private var isInputAction: Bool // состояние клавиатуры
+    @FocusState private var focusedField: Field? // поле фокусирования
     
     var body: some View {
-        
-        // ZStack для модификатора .onTapGesture
-        // без использования ZStack область жестов
-        // ограничивается вертикальным стеком, который
-        // заканчивается сразу после слайдеров
-        
-        ZStack { // фиксация тапа по экрану для скрытия клавиатуры
+        ZStack {
             VStack(spacing: 40) {
                 ColorView(red: red, green: green, blue: blue)
                 
                 VStack {
                     ColorSliderView(value: $red, color: .red)
+                        .focused($focusedField, equals: .red)
                     ColorSliderView(value: $green, color: .green)
+                        .focused($focusedField, equals: .green)
                     ColorSliderView(value: $blue, color: .blue)
+                        .focused($focusedField, equals: .blue)
                 }
                 .frame(height: 150)
-                .focused($isInputAction) // вызов клавиатуры
-                .toolbar {
+                .toolbar { // add кнопки перемещения по бару
                     ToolbarItemGroup(placement: .keyboard) {
+                        Button(action: previousField) { // предыдущее текстовое поле
+                            Image(systemName: "chevron.up")
+                        }
+                        Button(action: nextField) { // следующее поле
+                            Image(systemName: "chevron.down")
+                        }
                         Spacer() // сдвигаем кнопку
                         Button("Done") {
-                            isInputAction = false // присваиваем значение
+                            focusedField = nil // присваиваем значение
                         }
                     }
                 }
                 Spacer()
             }
+            .padding()
+            .background(Color.background)
+            .onTapGesture { // тап по экрану
+                focusedField = nil // меняет состояние клавиатуры
+            }
         }
-        .padding()
-        .background(Color.background)
-        .onTapGesture { // тап по экрану
-            isInputAction = false // меняет состояние клавиатуры
+    }
+}
+
+extension ContentView {
+    private enum Field { // переключение между текстовыми полями
+        case red
+        case green
+        case blue
+    }
+    
+    private func nextField() { // переключение на следуюшие поля вниз
+        switch focusedField {
+        case .red:
+            focusedField = .green
+        case .green:
+            focusedField = .blue
+        case .blue:
+            focusedField = .red
+        case .none:
+            focusedField = nil
+        }
+    }
+    
+    private func previousField() { // переключение на следующие поля вверх
+        switch focusedField {
+        case .red:
+            focusedField = .blue
+        case .green:
+            focusedField = .red
+        case .blue:
+            focusedField = .green
+        case .none:
+            focusedField = nil
         }
     }
 }
