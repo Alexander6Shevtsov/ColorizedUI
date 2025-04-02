@@ -10,18 +10,18 @@ import SwiftUI
 struct TextFieldView: View {
     @Binding var text: String
     
-    let action: () -> Void
+    let action: () -> Void // действие по завершению работы с текстовым полем
     
     var body: some View {
-        TextField("0", text: $text) { _ in
-            withAnimation {
-                action()
+        TextField("0", text: $text) { _ in // плейсхолдер, передаем текст
+            withAnimation { // любое действие с анимацией
+                action() // перемещение слайдера с анимацией
             }
         }
-        .frame(width: 55, alignment: .trailing)
-        .multilineTextAlignment(.trailing)
-        .textFieldStyle(.roundedBorder)
-        .keyboardType(.numberPad)
+        .frame(width: 55, alignment: .trailing) // размер, выравнивание справа
+        .multilineTextAlignment(.trailing) // выравнивание текста справа
+        .textFieldStyle(.roundedBorder) // стиль текста
+        .keyboardType(.numberPad) // цифровой вид клавиатуры без . и ,
     }
 }
 

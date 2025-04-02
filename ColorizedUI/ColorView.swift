@@ -14,11 +14,11 @@ struct ColorView: View {
     
     var body: some View {
         Color(red: red / 255, green: green / 255, blue: blue / 255)
-            .cornerRadius(20)
-            .frame(height: 130)
+            .clipShape(.rect(cornerRadius: 20))
+            .frame(height: 130) // высота
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white, lineWidth: 4)
+                    .stroke(Color.white, lineWidth: 2) // ореол 
             )
     }
 }
